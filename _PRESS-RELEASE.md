@@ -18,27 +18,38 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  BlitzKeys
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  Keyboard users who would like to use their typing skills to compete against friends and strangers.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  BlitzKeys is a typing game with a twist.  Users compete against each other in a typing "race".  Powerups and weapons can be
+  attained by typing specific streaks of words perfectly.  Weapons can then be used to sabotage opponents. Typing content will
+  vary and can be chosen--examples are literature, people/song/movie quotes, online articles, numbers, gibberish.
 
 ## Problem ##
   > Describe the problem your product solves.
+  Loads of typing software (mainly for learning) exists, but few (if any) provide a way for typists to compete with each other.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  Provides users with a fun and competitive way to challenge each other's typing abilities by creating an environment in which
+  they directly interact with each other.  Gives users an incentive to hone their typing skills.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  "Blitzkeys is the Bee's Knees"
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  Starting is as easy as joining a match and going at it.
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  "Since my friends and I started playing BlitzKeys, we've each increased our speed by 20 wpm.  And it's a blast!"
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
