@@ -1,0 +1,19 @@
+{
+  "name": "BlitzKeys",
+  "version": "1.0.0",
+  "authors": [
+    "Vincent Huang <vincent.vwh.huang@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib"
+  ],
+  "dependencies": {
+    "angular": "~1.3.16",
+    "angular-route": "~1.3.16",
+    "angular-mocks": "~1.3.16"
+  }
+}
