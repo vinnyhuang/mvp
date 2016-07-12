@@ -25,6 +25,9 @@
         <input ng-model="input" ng-change="matchText()" ng-trim="false"/>
         <p> {{ input }} </p>
       </div>
+
+      <button id="start" ng-click="startGame()" ng-hide="hideStart">Start</button>
+      <button id="restart" class="ng-hide" ng-click="startGame()" ng-hide="hideRestart">Restart</button>
     </div>
 
 </html>

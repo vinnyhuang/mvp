@@ -1,13 +1,32 @@
 angular.module('blitzkeys', ['ngSanitize'])
 .controller('gameController', function($scope, timer) {
   $scope.input = '';
-  $scope.text = 'Our Goal: You\'ll begin';
+  $scope.text = '';
+  // $scope.text = 'Our Goal: You\'ll begin';
   // $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
   $scope.start = 0;
   $scope.end = $scope.text.indexOf(' ') + 1;
-  $scope.startTimer = timer.setTimer;
+
+  $scope.startTimer = timer.startTimer;
   $scope.getTimer = timer.getTimer;
   $scope.stopTimer = timer.stopTimer;
+
+  $scope.stopTimer();
+
+  $scope.hideStart = false;
+  $scope.hideRestart = true;
+
+  $scope.startGame = function() {
+    // $scope.text = 'Our Goal: You\'ll begin';
+    $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
+    $scope.start = 0;
+    $scope.end = $scope.text.indexOf(' ') + 1;
+    $scope.wordCount = 0;
+
+    $scope.startTimer();
+    $scope.hideStart = true;
+    $scope.hideRestart = true;
+  }
 
   $scope.matchText = function() {
     if ($scope.input === ' ' && $scope.text[$scope.start - 2] === '.') {
@@ -22,10 +41,16 @@ angular.module('blitzkeys', ['ngSanitize'])
         $scope.end = $scope.text.length;
       }
       $scope.input = ''
+      $scope.wordCount++;
     }
 
     if ($scope.start === $scope.end) {
-      console.log('Done!');
+      // console.log('Done!');
+      var elapsed = $scope.stopTimer();
+      // $scope.time += ' Done!';
+      $scope.text = 'Done! WPM: ' + Math.floor(($scope.text.length / elapsed * 12000)); // CPM->WPM/5, ms->min*60000, 
+      //$scope.text = 'Done! WPM: ' + Math.floor(($scope.wordCount / elapsed * 60000)); // ms->min*60000
+      $scope.hideRestart = false;
     }
   }
 
@@ -58,7 +83,11 @@ angular.module('blitzkeys', ['ngSanitize'])
   };
 
   var getTimer = function() {
-    return Math.floor((Date.now() - initTime) / 1000);
+    if (running) {
+      return Math.floor((Date.now() - initTime) / 1000);
+    } else {
+      return Math.floor(currentTime / 1000);
+    }
   };
 
   var stopTimer = function() {
