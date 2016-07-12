@@ -15,9 +15,11 @@
     </div>
 
     <div ng-controller="gameController">
-      <div class="textBox" ng-bind-html="highlight(start, end)">
-        <!-- {{ text }} -->
+      <div class="timer" >
+        <h4> {{ time }} </h4>
       </div>
+
+      <div class="textBox" ng-bind-html="highlight(start, end)"></div>
 
       <div class="typeInput">
         <input ng-model="input" ng-change="matchText()" ng-trim="false"/>
