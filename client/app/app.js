@@ -1,5 +1,5 @@
-angular.module('blitzkeys', ['ngSanitize'])
-.controller('gameController', function($scope, timer) {
+angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
+.controller('gameController', function($scope, timer, mySocket) {
   $scope.input = '';
   $scope.text = '';
   // $scope.text = 'Our Goal: You\'ll begin';
@@ -16,9 +16,13 @@ angular.module('blitzkeys', ['ngSanitize'])
   $scope.hideStart = false;
   $scope.hideRestart = true;
 
+  // console.log(mySocket);
+  // mySocket.emit('finishTest');
+
+
   $scope.startGame = function() {
-    // $scope.text = 'Our Goal: You\'ll begin';
-    $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
+    $scope.text = 'Our Goal: You\'ll begin';
+    // $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
     $scope.start = 0;
     $scope.end = $scope.text.indexOf(' ') + 1;
     $scope.wordCount = 0;
@@ -45,12 +49,12 @@ angular.module('blitzkeys', ['ngSanitize'])
     }
 
     if ($scope.start === $scope.end) {
-      // console.log('Done!');
       var elapsed = $scope.stopTimer();
-      // $scope.time += ' Done!';
       $scope.text = 'Done! WPM: ' + Math.floor(($scope.text.length / elapsed * 12000)); // CPM->WPM/5, ms->min*60000, 
       //$scope.text = 'Done! WPM: ' + Math.floor(($scope.wordCount / elapsed * 60000)); // ms->min*60000
       $scope.hideRestart = false;
+      console.log('finished');
+      mySocket.emit('finishTest');
     }
   }
 
@@ -74,6 +78,7 @@ angular.module('blitzkeys', ['ngSanitize'])
     }    
   }
 })
+
 .factory('timer', function() {
   var initTime, currentTime, running;
 
@@ -104,6 +109,15 @@ angular.module('blitzkeys', ['ngSanitize'])
     stopTimer: stopTimer
   };
 })
+
+.factory('mySocket', function(socketFactory) {
+  var mySocket = socketFactory();
+  mySocket.on('finishTest', function(socket) {
+    console.log('Somebody Finished!');
+  })
+  return mySocket;
+})
+
 .run(['$rootScope', '$interval', 'timer', function($rootScope, $interval, timer) {
   timer.startTimer();
   $rootScope.time = timer.getTimer();
