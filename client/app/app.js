@@ -1,5 +1,5 @@
 angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
-.controller('gameController', function($scope, timer, mySocket) {
+.controller('gameController', function($scope, $timeout, timer, mySocket) {
   $scope.username = 'guest';
 
   $scope.input = '';
@@ -31,18 +31,32 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     }
   });
 
+  mySocket.on('startTest', function() {
+    if (!$scope.inProgress) {
+      $scope.startGame();
+    }
+  })
 
   $scope.startGame = function() {
-    $scope.text = 'Our Goal: You\'ll begin';
-    // $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
-    $scope.start = 0;
-    $scope.end = $scope.text.indexOf(' ') + 1;
-    $scope.wordCount = 0;
+    mySocket.emit('startTest');
 
-    $scope.startTimer();
     $scope.inProgress = true;
     $scope.hideStart = true;
     $scope.hideRestart = true;
+    
+    // $timeout(function() {
+    //   $scope.startMessage = 
+    // })
+    $scope.countdown(3);
+    $timeout(function() {
+      $scope.startMessage = '';
+      $scope.startTimer();
+      $scope.text = 'Our Goal: You\'ll begin';
+      // $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
+      $scope.start = 0;
+      $scope.end = $scope.text.indexOf(' ') + 1;
+      $scope.wordCount = 0;
+    }, 3000);
   }
 
   $scope.matchText = function() {
@@ -96,6 +110,17 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     } else {
       return 'green';
     }    
+  }
+
+  $scope.countdown = function(seconds) {
+    $scope.startMessage = 'Starting in ' + seconds + ' seconds';
+    if (seconds > 0) {
+      $timeout(function() {
+        $scope.countdown(seconds - 1);
+      }, 1000)
+    } else {
+      $scope.startMessage = '';
+    }
   }
 
   $scope.winnerText = function() {

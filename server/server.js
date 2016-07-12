@@ -21,6 +21,11 @@ io.on('connection', function(socket) {
     console.log(winner);
     socket.broadcast.emit('finishTest', winner);
   });
+
+  socket.on('startTest', function() {
+    console.log('starting');
+    socket.broadcast.emit('startTest');
+  })
 });
 
 http.listen(3000, function() {

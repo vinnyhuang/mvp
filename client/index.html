@@ -18,8 +18,8 @@
 
     <div ng-controller="gameController">
       <div class="timer" >
-        <h4> {{ time }} </h4>
-        <!-- <h4> {{ time + startMessage }} </h4> -->
+        <!-- <h4> {{ time }} </h4> -->
+        <h4> {{ time + '\t' + startMessage }} </h4>
       </div>
 
       <div class="textBox" ng-bind-html="highlight(start, end)"></div>
