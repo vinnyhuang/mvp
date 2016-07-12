@@ -1,5 +1,7 @@
 angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
 .controller('gameController', function($scope, timer, mySocket) {
+  $scope.username = 'guest';
+
   $scope.input = '';
   $scope.text = '';
   // $scope.text = 'Our Goal: You\'ll begin';
@@ -13,11 +15,21 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
 
   $scope.stopTimer();
 
+  $scope.inProgress = false;
   $scope.hideStart = false;
   $scope.hideRestart = true;
 
+  $scope.winner = {};
+
   // console.log(mySocket);
   // mySocket.emit('finishTest');
+
+  mySocket.on('finishTest', function(winner) {
+    $scope.winner = {
+      name: winner.name,
+      wpm: winner.wpm
+    }
+  });
 
 
   $scope.startGame = function() {
@@ -28,6 +40,7 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     $scope.wordCount = 0;
 
     $scope.startTimer();
+    $scope.inProgress = true;
     $scope.hideStart = true;
     $scope.hideRestart = true;
   }
@@ -50,11 +63,18 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
 
     if ($scope.start === $scope.end) {
       var elapsed = $scope.stopTimer();
-      $scope.text = 'Done! WPM: ' + Math.floor(($scope.text.length / elapsed * 12000)); // CPM->WPM/5, ms->min*60000, 
-      //$scope.text = 'Done! WPM: ' + Math.floor(($scope.wordCount / elapsed * 60000)); // ms->min*60000
+      var wpm = Math.floor(($scope.text.length / elapsed * 12000)); // CPM->WPM/5, ms->min*60000
+      // var wpm = Math.floor(($scope.wordCount / elapsed * 60000)); // ms->min*60000
+      $scope.text = 'Done! WPM: ' + wpm;
+      $scope.inProgress = false;
       $scope.hideRestart = false;
       console.log('finished');
-      mySocket.emit('finishTest');
+      console.log({name: $scope.username, wpm: wpm});
+
+      if (!$scope.winner.name) {
+        $scope.winner = { you: true }
+        mySocket.emit('finishTest', {name: $scope.username, wpm: wpm});
+      }
     }
   }
 
@@ -76,6 +96,16 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     } else {
       return 'green';
     }    
+  }
+
+  $scope.winnerText = function() {
+    // console.log($scope.winner);
+    if ($scope.winner.you) {
+      return 'You win!';
+    } else if (!$scope.winner.name) {
+      return '';
+    }
+    return 'WINNER: ' + $scope.winner.name + ' ' + $scope.winner.wpm + 'wpm';
   }
 })
 
@@ -112,9 +142,9 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
 
 .factory('mySocket', function(socketFactory) {
   var mySocket = socketFactory();
-  mySocket.on('finishTest', function(socket) {
-    console.log('Somebody Finished!');
-  })
+  // mySocket.on('finishTest', function(socket) {
+  //   console.log('Somebody Finished!');
+  // })
   return mySocket;
 })
 

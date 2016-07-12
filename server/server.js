@@ -15,9 +15,11 @@ app.get('/', function(req,res) {
 
 io.on('connection', function(socket) {
   console.log('connected');
-  socket.on('finishTest', function() {
+  socket.on('finishTest', function(winner) {
     console.log('finished in server');
-    io.emit('finishTest');
+    // io.emit('finishTest');
+    console.log(winner);
+    socket.broadcast.emit('finishTest', winner);
   });
 });
 
