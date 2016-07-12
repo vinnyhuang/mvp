@@ -2,17 +2,27 @@
 <html>
   <head>
     <title>BlitzKeys</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="app/app.js"></script>
   </head>
 
-  <body>
+  <body ng-app="blitzkeys">
     <div class="heading">
       <h1>BlitzKeys</h1>
     </div>
 
-    <div class="textBox"></div>
+    <div ng-controller="gameController">
+      <div class="textBox" ng-bind-html="highlight(start, end)">
+        <!-- {{ text }} -->
+      </div>
 
-    <div class="typeInput">
-      <input />
+      <div class="typeInput">
+        <input ng-model="input" ng-change="matchText()" ng-trim="false"/>
+        <p> {{ input }} </p>
+      </div>
     </div>
 
 </html>

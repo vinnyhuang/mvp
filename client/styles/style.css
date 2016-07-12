@@ -1,0 +1,14 @@
+body {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.textBox {
+  width: 800px;
+  height: 300px;
+  border: 1px solid #000;
+  margin-bottom: 30px
+}
+
+.highlighted {
+  background-color: yellow;
+}
