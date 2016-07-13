@@ -31,6 +31,26 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     }
   });
 
+  mySocket.on('block', function() {
+    console.log('blocked');
+    $scope.block = true;
+    $timeout(function() {
+      $scope.block = false;
+    }, 3000);
+  });
+
+  mySocket.on('insertion', function() {
+    if (!$scope.inProgress) {
+      return;
+    }
+    var toAdd = ' ';
+    for (var i = 0; i < 13; i++) {
+      toAdd += String.fromCharCode(Math.floor(Math.random() * (127 - 33)) + 33);
+    }
+    $scope.text += toAdd;
+    console.log($scope.text);
+  })
+
   mySocket.on('startTest', function() {
     if (!$scope.inProgress) {
       $scope.startGame();
@@ -43,6 +63,8 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     $scope.inProgress = true;
     $scope.hideStart = true;
     $scope.hideRestart = true;
+
+    $scope.block = false;
     
     // $timeout(function() {
     //   $scope.startMessage = 
@@ -103,13 +125,23 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
 
   $scope.getColor = function() {
     var lengthIn = $scope.input.length;
-    if (lengthIn > $scope.end - $scope.start) {
+    if ($scope.block) {
+      return 'noColor'
+    } else if (lengthIn > $scope.end - $scope.start) {
       return 'red';
     } else if ($scope.text.substring($scope.start, $scope.start + lengthIn) !== $scope.input) {
       return 'red';
     } else {
       return 'green';
     }    
+  }
+
+  $scope.emitBlock = function() {
+    mySocket.emit('block');
+  }
+
+  $scope.emitInsertion = function() {
+    mySocket.emit('insertion');
   }
 
   $scope.countdown = function(seconds) {

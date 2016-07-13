@@ -25,7 +25,9 @@
       <div class="textBox" ng-bind-html="highlight(start, end)"></div>
 
       <div class="typeInput">
-        <input ng-model="input" ng-change="matchText()" ng-trim="false"/>
+        <p>&nbsp;</p>
+        <input id="inputBar" ng-model="input" ng-change="matchText()" ng-trim="false"/>
+        <div id="blockBar" class="ng-hide" ng-hide="!block"></div>
         <p> {{ input }} </p>
       </div>
 
@@ -33,6 +35,9 @@
       <button id="restart" class="ng-hide" ng-click="startGame()" ng-hide="hideRestart">Restart</button>
 
       <h4 id="winner"> {{ winnerText() }}</h4>
+
+      <button id="blockButton" ng-click="emitBlock()">Block</button>
+      <button id="insertionButton" ng-click="emitInsertion()">Insert</button>
     </div>
 
 </html>

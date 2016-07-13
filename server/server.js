@@ -25,6 +25,16 @@ io.on('connection', function(socket) {
   socket.on('startTest', function() {
     console.log('starting');
     socket.broadcast.emit('startTest');
+  });
+
+  socket.on('block', function() {
+    console.log('blocking');
+    socket.broadcast.emit('block');
+  })
+
+  socket.on('insertion', function() {
+    console.log('inserting');
+    socket.broadcast.emit('insertion');
   })
 });
 
