@@ -4,8 +4,6 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
 
   $scope.input = '';
   $scope.text = '';
-  // $scope.text = 'Our Goal: You\'ll begin';
-  // $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
   $scope.start = 0;
   $scope.end = $scope.text.indexOf(' ') + 1;
 
@@ -73,7 +71,8 @@ angular.module('blitzkeys', ['ngSanitize', 'btford.socket-io'])
     $timeout(function() {
       $scope.startMessage = '';
       $scope.startTimer();
-      $scope.text = 'Our Goal: You\'ll begin';
+      $scope.text = 'I hate when I\'m on a flight and I wake up with a water bottle next to me like oh great now I gotta be responsible for this water bottle';
+      // $scope.text = 'Our Goal: You\'ll begin';
       // $scope.text = 'Our Goal: You\'ll begin Hack Reactor with a feeling of excitement and anticipation. Twelve weeks later, you\'ll follow the footsteps of our trailblazing alumni, taking the methodologies and best practices you perfected at our coding bootcamp to your next job. We\'ve built world class software engineering curriculum and programming courses. However, Hack Reactor is, above all else, a world-class learning environment.';
       $scope.start = 0;
       $scope.end = $scope.text.indexOf(' ') + 1;
